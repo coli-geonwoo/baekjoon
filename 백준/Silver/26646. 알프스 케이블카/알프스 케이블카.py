@@ -1,12 +1,9 @@
+#26646. 알프스 케이블카
+
 n= int(input())
-h= list(map(int, input().split()))
-
-#h.sort()
+heights = list(map(int, input().split()))
 result=0
-
 for i in range(n-1):
-  a= h[i]
-  b= h[i+1]
-  result+= (a**2+b**2)*2
+  result += (heights[i] + heights[i+1])**2 + (heights[i]- heights[i+1])**2
 
 print(result)

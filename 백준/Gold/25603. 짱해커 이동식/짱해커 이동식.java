@@ -2,11 +2,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.List;
+import java.util.Arrays;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 //25603. 짱해커 이동식(골5)
@@ -27,24 +24,24 @@ public class Main {
             numbers[i] = Integer.parseInt(st.nextToken());
         }
 
-        Deque<Integer> window = new ArrayDeque<>();
-        int result = Integer.MAX_VALUE;
+        PriorityQueue<Integer> min_nums = new PriorityQueue<>();
+        int idx = 0;
 
-        for (int i = 0; i < k; i++) {
-            window.add(numbers[i]);
-            result = Math.min(result, numbers[i]);
-        }
-        int temp = result;
-        
-        for (int i = k; i < n; i++) {
-            int poll = window.pollFirst();
-            window.add(numbers[i]);
-//            temp = Math.min(temp, numbers[i]);
-            if (result < numbers[i] && poll <= result) {
-                result = Math.max(result, Collections.min(window));
+        while (idx + k <= n) {
+            int[] window = Arrays.copyOfRange(numbers, idx, idx + k);
+            int temp = window[0];
+            int temp_idx = idx;
+            for (int i = 0; i < window.length; i++) {
+                if (temp >= window[i]) {
+                    temp_idx = idx + i + 1;
+                    temp = window[i];
+                }
             }
+
+            min_nums.add(-temp);
+            idx = temp_idx;
         }
 
-        System.out.println(result);
+        System.out.println(-min_nums.peek());
     }
 }
